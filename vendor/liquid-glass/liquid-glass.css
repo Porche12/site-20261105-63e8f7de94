@@ -1,0 +1,139 @@
+/* liquid-glass.css - Apple-style Live Refraction & Glassmorphism UI Suite
+ * Based on samasante/liquid-glass & modern backdrop-filter physics. Zero dependencies.
+ */
+
+:root {
+  --glass-blur: 16px;
+  --glass-saturate: 180%;
+  --glass-bg-light: rgba(255, 255, 255, 0.45);
+  --glass-bg-dark: rgba(18, 20, 24, 0.65);
+  --glass-border-light: rgba(255, 255, 255, 0.55);
+  --glass-border-dark: rgba(255, 255, 255, 0.12);
+  --glass-glow: rgba(255, 255, 255, 0.25);
+  --glass-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25);
+}
+
+/* Base Glass Material */
+.glass-material {
+  position: relative;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border-light);
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+/* Frosted Card */
+.glass-card {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  position: relative;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+/* Dark Obsidian Glass (for Tech / Cyberpunk / Luxury) */
+.glass-dark {
+  background: var(--glass-bg-dark);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--glass-border-dark);
+  border-radius: 20px;
+  box-shadow: 0 24px 48px -18px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+  color: #f1f5f9;
+}
+
+.glass-dark::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+/* Apple Floating Glass Navbar */
+.glass-nav {
+  position: sticky;
+  top: 16px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+}
+
+.glass-nav-dark {
+  background: rgba(12, 14, 18, 0.72);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Glass Refraction Button */
+.glass-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 15px;
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  position: relative;
+}
+
+.glass-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.6s ease;
+}
+
+.glass-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.38);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.2), inset 0 1px 1px #fff;
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.glass-btn:hover::after {
+  transform: rotate(25deg) translateY(100%);
+}
+
+.glass-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Active optical displacement lens */
+.liquid-lens {
+  backdrop-filter: url(#liquid-glass-filter) blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+}
